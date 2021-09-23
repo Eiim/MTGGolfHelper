@@ -1,6 +1,6 @@
 module.exports = {
 	allSubstrsSpaced: function (name) {
-		if(name == undefined || name == null) {return []}
+		if(name == undefined || name == null) {return new Set()}
 		strL = name.toLowerCase();
 		a = [];
 		for(len = 1; len <=4; len++) {
@@ -20,7 +20,7 @@ module.exports = {
 	},
 
 	allSubstrs: function (name) {
-		if(name == undefined || name == null) {return []}
+		if(name == undefined || name == null) {return new Set()}
 		strL = name.toLowerCase();
 		a = [];
 		for(len = 1; len <=4; len++) {
