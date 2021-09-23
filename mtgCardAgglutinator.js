@@ -1,5 +1,6 @@
 const fs = require('fs');
-let rawdata = fs.readFileSync("mtg-cards-texts.json");
+const substrFinder = require("./substrFinder.js")
+let rawdata = fs.readFileSync("default-cards-20210722210331.json");
 let jsonIn = JSON.parse(rawdata);
 let jsonOut = {total:0,name:{},type_line:{},oracle_text:{},flavor_text:{},artist:{}};
 let usedNames = new Set();
@@ -11,7 +12,7 @@ for(card of jsonIn) {
 		usedNames.add(card.name);
 		ct++;
 		
-		nmstrs = allSubstrsSpaced(card.name);
+		nmstrs = substrFinder.allSubstrsSpaced(card.name);
 		for(str of nmstrs) {
 			if(jsonOut.name[str] > 0) {
 				jsonOut.name[str]++;
@@ -20,7 +21,7 @@ for(card of jsonIn) {
 			}
 		}
 		
-		artstrs = allSubstrsSpaced(card.artist);
+		artstrs = substrFinder.allSubstrsSpaced(card.artist);
 		for(str of artstrs) {
 			if(jsonOut.artist[str] > 0) {
 				jsonOut.artist[str]++;
@@ -29,7 +30,7 @@ for(card of jsonIn) {
 			}
 		}
 		
-		tplnstrs = allSubstrs(card.type_line);
+		tplnstrs = substrFinder.allSubstrs(card.type_line);
 		for(str of tplnstrs) {
 			if(jsonOut.type_line[str] > 0) {
 				jsonOut.type_line[str]++;
@@ -38,7 +39,7 @@ for(card of jsonIn) {
 			}
 		}
 		
-		orcstrs = allSubstrs(card.oracle_text);
+		orcstrs = substrFinder.allSubstrs(card.oracle_text);
 		for(str of orcstrs) {
 			if(jsonOut.oracle_text[str] > 0) {
 				jsonOut.oracle_text[str]++;
@@ -47,7 +48,7 @@ for(card of jsonIn) {
 			}
 		}
 		
-		ftstrs = allSubstrs(card.flavor_text);
+		ftstrs = substrFinder.allSubstrs(card.flavor_text);
 		for(str of ftstrs) {
 			if(jsonOut.flavor_text[str] > 0) {
 				jsonOut.flavor_text[str]++;
@@ -64,36 +65,3 @@ console.log(ct);
 jsonOut.total = usedNames.size;
 
 fs.writeFileSync("mtg-cards-texts-agglutinated.json", JSON.stringify(jsonOut));
-
-function allSubstrsSpaced(name) {
-  if(name == undefined || name == null) {return []}
-  strL = name.toLowerCase();
-  a = [];
-  for(len = 1; len <=4; len++) {
-    for(i = 0; i <= strL.length-len; i++) {
-	  s = strL.substring(i, i+len);
-	  if(s.length > 0) {a.push(s)}
-    }
-  }
-  strL = strL.replace(/ /g, "").replace(/,/g, "").replace(/-/g, "").replace(/:/g,"").replace(/'/g,"").replace(/\\/g, "").replace(/\//g, "").replace(/!/g, "").replace(/—/g, "");	
-  for(len = 1; len <=4; len++) {
-    for(i = 0; i <= strL.length-len; i++) {
-      s = strL.substring(i, i+len);
-	  if(s.length > 0) {a.push(s)}
-    }
-  }
-  return [...new Set(a)];
-}
-
-function allSubstrs(name) {
-  if(name == undefined || name == null) {return []}
-  strL = name.toLowerCase();
-  a = [];
-  for(len = 1; len <=4; len++) {
-    for(i = 0; i <= strL.length-len; i++) {
-      s = strL.substring(i, i+len);
-	  if(s.length > 0) {a.push(s)}
-    }
-  }
-  return [...new Set(a)];
-}

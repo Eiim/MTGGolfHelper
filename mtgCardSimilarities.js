@@ -1,6 +1,7 @@
 const fs = require('fs');
 const readline = require("readline");
 const https = require('https');
+const substrFinder = require("./substrFinder.js")
 let rawdata = fs.readFileSync("mtg-cards-texts-agglutinated.json");
 let jsonIn = JSON.parse(rawdata);
 let total = jsonIn.total;
@@ -34,20 +35,20 @@ async function findSimilar(c1NmF,c2NmF) {
 	
 	let c1strs,c2strs;
 	
-	c1strs = allSubstrsSpaced(c1.name);
-	c2strs = allSubstrsSpaced(c2.name);
+	c1strs = substrFinder.allSubstrsSpaced(c1.name);
+	c2strs = substrFinder.allSubstrsSpaced(c2.name);
 	nmstrs = [...c1strs].filter(x => c2strs.has(x));
-	c1strs = allSubstrsSpaced(c1.artist);
-	c2strs = allSubstrsSpaced(c2.artist);
+	c1strs = substrFinder.allSubstrsSpaced(c1.artist);
+	c2strs = substrFinder.allSubstrsSpaced(c2.artist);
 	artstrs = [...c1strs].filter(x => c2strs.has(x));
-	c1strs = allSubstrs(c1.type_line);
-	c2strs = allSubstrs(c2.type_line);
+	c1strs = substrFinder.allSubstrs(c1.type_line);
+	c2strs = substrFinder.allSubstrs(c2.type_line);
 	tplnstrs = [...c1strs].filter(x => c2strs.has(x));
-	c1strs = allSubstrs(c1.oracle_text);
-	c2strs = allSubstrs(c2.oracle_text);
+	c1strs = substrFinder.allSubstrs(c1.oracle_text);
+	c2strs = substrFinder.allSubstrs(c2.oracle_text);
 	ostrs = [...c1strs].filter(x => c2strs.has(x));
-	c1strs = allSubstrs(c1.flavor_text);
-	c2strs = allSubstrs(c2.flavor_text);
+	c1strs = substrFinder.allSubstrs(c1.flavor_text);
+	c2strs = substrFinder.allSubstrs(c2.flavor_text);
 	ftstrs = [...c1strs].filter(x => c2strs.has(x));
 	
 	console.log("\n\u001b[33;1m\u001b[1mAll Substrings:\u001b[0m");
@@ -220,39 +221,6 @@ async function findSimilar(c1NmF,c2NmF) {
 	}
 	
 	console.log("\u001b[0m");
-}
-
-function allSubstrsSpaced(name) {
-  if(name == undefined || name == null) {return new Set()}
-  strL = name.toLowerCase();
-  a = [];
-  for(len = 1; len <=4; len++) {
-    for(i = 0; i <= strL.length-len; i++) {
-      s = strL.substring(i, i+len);
-	  if(s.length > 0) {a.push(s)}
-    }
-  }
-  strL = strL.replace(/ /g, "").replace(/,/g, "").replace(/-/g, "").replace(/:/g,"").replace(/'/g,"").replace(/\\/g, "").replace(/\//g, "").replace(/!/g, "").replace(/—/g, "");
-  for(len = 1; len <=4; len++) {
-    for(i = 0; i <= strL.length-len; i++) {
-      s = strL.substring(i, i+len);
-	  if(s.length > 0) {a.push(s)}
-    }
-  }
-  return new Set(a);
-}
-
-function allSubstrs(name) {
-  if(name == undefined || name == null) {return new Set()}
-  strL = name.toLowerCase();
-  a = [];
-  for(len = 1; len <=4; len++) {
-    for(i = 0; i <= strL.length-len; i++) {
-      s = strL.substring(i, i+len);
-	  if(s.length > 0) {a.push(s)}
-    }
-  }
-  return new Set(a);
 }
 
 async function getCard(cardName) {
