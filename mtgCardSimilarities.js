@@ -61,11 +61,11 @@ async function findSimilar(c1NmF,c2NmF) {
 	
 	console.log("\n\u001b[33;1m\u001b[1mMost effective substrings:\u001b[0m");
 	
-	nameEffs = effectiveness(nmstrs, "Name");
-	oEffs = effectiveness(ostrs, "Oracle Text");
-	ftEffs = effectiveness(ftstrs, "Flavor Text");
-	tplnEffs = effectiveness(tplnstrs, "Type Line");
-	artEffs = effectiveness(artstrs, "Artist");
+	nameEffs = effectiveness(nmstrs, "Name", "name");
+	oEffs = effectiveness(ostrs, "Oracle Text", "oracle_text");
+	ftEffs = effectiveness(ftstrs, "Flavor Text", "flavor_text");
+	tplnEffs = effectiveness(tplnstrs, "Type Line", "type_line");
+	artEffs = effectiveness(artstrs, "Artist", "artist");
 	
 	console.log("\n\u001b[33;1m\u001b[1mMost efficient substrings:\u001b[0m");
 	
@@ -137,10 +137,10 @@ async function getCard(cardName) {
 	});
 }
 
-function effectiveness(strs, cat) {
+function effectiveness(strs, cat, JSONcat) {
 	effs = [];
 	for(str of strs) {
-		var ct = jsonIn.oracle_text[str]
+		var ct = jsonIn[JSONcat][str];
 		ct = (ct > 0 ? ct : 0);
 		effs.push([str,(total-ct)/total]);
 	}
