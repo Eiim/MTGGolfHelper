@@ -1,3 +1,24 @@
 body {
 	font-family: 'Bitter', sans-serif;
 }
+#inputBox {
+	margin-bottom: 20px;
+}
+#err {
+	color: red;
+}
+#cardsBox {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+#cardsBox div {
+	width: 45%
+}
+#cardsBox div img {
+	width: 100%
+}
+#cardsBox div p {
+	font-family: 'Beleren', 'Beleren2016', 'Beleren Bold', 'Bitter', sans-serif;
+}
