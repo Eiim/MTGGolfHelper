@@ -1,6 +1,6 @@
 const fs = require('fs');
 const substrFinder = require("./substrFinder.js")
-let rawdata = fs.readFileSync("default-cards-20210722210331.json");
+let rawdata = fs.readFileSync("default-cards-20210925210242.json");
 let jsonIn = JSON.parse(rawdata);
 let jsonOut = {total:0,name:{},type_line:{},oracle_text:{},flavor_text:{},artist:{}};
 let usedNames = new Set();

@@ -70,7 +70,7 @@ async function findSimilar(c1NmF,c2NmF) {
 	console.log("\n\u001b[33;1m\u001b[1mMost efficient substrings:\u001b[0m");
 	
 	for(var i = 0; i < nameEffs.length; i++) {
-		len = nameEffs[i][0].length;
+		len = nameEffs[i][0].length +1;
 		if(nameEffs[i][0].includes(" ") || nameEffs[i][0].includes("\"") || nameEffs[i][0].includes("'") || nameEffs == "or" || nameEffs == "and" || nonLatin.test(nameEffs[i][0])) {
 			len += 2
 		}
@@ -83,10 +83,10 @@ async function findSimilar(c1NmF,c2NmF) {
 	}
 	console.log(outStr);
 	
-	oEffs = efficiency(oEffs, "Oracle Text", 2);
-	ftEffs = efficiency(ftEffs, "Flavor Text", 3);
-	tplnEffs = efficiency(tplnEffs, "Typle Line", 2);
-	artEffs = efficiency(artEffs, "Artist", 2);
+	oEffs = efficiency(oEffs, "Oracle Text", 3);
+	ftEffs = efficiency(ftEffs, "Flavor Text", 4);
+	tplnEffs = efficiency(tplnEffs, "Typle Line", 3);
+	artEffs = efficiency(artEffs, "Artist", 3);
 	
 	allEffs = [];
 	for(var i = 0; i < nameEffs.length; i++) {
