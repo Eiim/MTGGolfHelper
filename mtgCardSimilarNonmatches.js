@@ -38,26 +38,28 @@ async function findSimilar(c1NmF,c2NmF) {
 	
 	c1strs = substrFinder.allSubstrsSpaced(c1.name);
 	c2strs = substrFinder.allSubstrsSpaced(c2.name);
-	nmstrs = [...c1strs].filter(x => c2strs.has(x));
+	nmstrs = Object.keys(jsonIn["name"]).filter(x => !c1strs.has(x) && !c2strs.has(x));
 	c1strs = substrFinder.allSubstrsSpaced(c1.artist);
 	c2strs = substrFinder.allSubstrsSpaced(c2.artist);
-	artstrs = [...c1strs].filter(x => c2strs.has(x));
+	artstrs = Object.keys(jsonIn["artist"]).filter(x => !c1strs.has(x) && !c2strs.has(x));
 	c1strs = substrFinder.allSubstrs(c1.type_line);
 	c2strs = substrFinder.allSubstrs(c2.type_line);
-	tplnstrs = [...c1strs].filter(x => c2strs.has(x));
+	tplnstrs = Object.keys(jsonIn["type_line"]).filter(x => !c1strs.has(x) && !c2strs.has(x));
 	c1strs = substrFinder.allSubstrs(c1.oracle_text);
 	c2strs = substrFinder.allSubstrs(c2.oracle_text);
-	ostrs = [...c1strs].filter(x => c2strs.has(x));
+	ostrs = Object.keys(jsonIn["oracle_text"]).filter(x => !c1strs.has(x) && !c2strs.has(x));
 	c1strs = substrFinder.allSubstrs(c1.flavor_text);
 	c2strs = substrFinder.allSubstrs(c2.flavor_text);
-	ftstrs = [...c1strs].filter(x => c2strs.has(x));
+	ftstrs = Object.keys(jsonIn["flavor_text"]).filter(x => !c1strs.has(x) && !c2strs.has(x));
 	
+	/*
 	console.log("\n\u001b[33;1m\u001b[1mAll Substrings:\u001b[0m");
 	console.log("\u001b[36;1mName:\u001b[0m "+nmstrs);
 	console.log("\u001b[36;1mOracle Text:\u001b[0m "+ostrs);
 	console.log("\u001b[36;1mFlavor Text:\u001b[0m "+ftstrs);
 	console.log("\u001b[36;1mType Line:\u001b[0m "+tplnstrs);
 	console.log("\u001b[36;1mArtist:\u001b[0m "+artstrs);
+	*/
 	
 	console.log("\n\u001b[33;1m\u001b[1mMost effective substrings:\u001b[0m");
 	
@@ -71,12 +73,13 @@ async function findSimilar(c1NmF,c2NmF) {
 	
 	for(var i = 0; i < nameEffs.length; i++) {
 		len = nameEffs[i][0].length +1;
-		if(nameEffs[i][0].includes(" ") || nameEffs[i][0].includes("\"") || nameEffs[i][0].includes("'") || nameEffs[i][0] == "or" || nameEffs[i][0] == "and" || nonLatin.test(nameEffs[i][0])) {
+		if(nameEffs[i][0].includes(" ") || nameEffs[i][0] == "or" || nameEffs[i][0] == "and") {
 			len += 2
 		}
 		nameEffs[i][1] = 1-Math.pow(1-nameEffs[i][1], 1/len);
 	}
 	nameEffs.sort((a,b) => {return b[1]-a[1]});
+	console.log("Note: using slightly less accurate name efficiency calculation for drastically improved runtime");
 	outStr = "\u001b[36;1mName:\u001b[0m";
 	for(var i = 0; i < 5 && i < nameEffs.length; i++) {
 		outStr += "\n"+nameEffs[i][0]+": "+Number.parseFloat(100*nameEffs[i][1]).toPrecision(4)+"%";
@@ -142,7 +145,7 @@ function effectiveness(strs, cat, JSONcat) {
 	for(str of strs) {
 		var ct = jsonIn[JSONcat][str];
 		ct = (ct > 0 ? ct : 0);
-		effs.push([str,(total-ct)/total]);
+		effs.push([str,1-((total-ct)/total)]);
 	}
 	effs.sort((a,b) => {return b[1]-a[1]});
 	outStr = "\u001b[36;1m"+cat+":\u001b[0m";

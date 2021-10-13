@@ -9,7 +9,7 @@ For more information, see https://twitter.com/ScryfallGolf (unaffiliated)
 This finds unusual common substrings in the text of two Magic cards. Magic cards have particular ways things are worded, and so using general English frequency estimates will give substandard results.
 
 ## How do I use it?
-For the moment, download/clone the repository and run mtgCardSimilarities.js with Node. I hope to have a better UI in place in the near future.
+For the moment, download/clone the repository and run mtgCardSimilarities.js with Node, or mtgCardSimilarNonmatches.js for common missing substrings. I hope to have a better UI in place in the near future.
 
 ## Help, it's broken!
 If you're seeing strange `[36;` strings that make the output hard to read, your terminal doesn't support colored output. For the moment there's no way to disable this, so I would suggest upgrading your terminal. If you're on Windows, [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701) is a fantastic alternative to Command Prompt. If you're on Linux, I'm sure you know plenty about your different options already. If you're on Mac, I'm sorry that you're using a Mac.
