@@ -38,8 +38,13 @@ for(card of jsonIn) {
 				jsonOut.type_line[str] = 1;
 			}
 		}
-		
-		orcstrs = substrFinder.allSubstrs(card.oracle_text);
+		let ot;
+		if(card.card_faces != undefined) {
+			ot = card.card_faces.map(x => {return x.oracle_text}).join(" ");
+		} else {
+			ot = card.oracle_text;
+		}
+		orcstrs = substrFinder.allSubstrs(ot);
 		for(str of orcstrs) {
 			if(jsonOut.oracle_text[str] > 0) {
 				jsonOut.oracle_text[str]++;

@@ -45,8 +45,21 @@ async function findSimilar(c1NmF,c2NmF) {
 	c1strs = substrFinder.allSubstrs(c1.type_line);
 	c2strs = substrFinder.allSubstrs(c2.type_line);
 	tplnstrs = Object.keys(jsonIn["type_line"]).filter(x => !c1strs.has(x) && !c2strs.has(x));
-	c1strs = substrFinder.allSubstrs(c1.oracle_text);
-	c2strs = substrFinder.allSubstrs(c2.oracle_text);
+	
+	let c1ot, c2ot;
+	if(c1.card_faces != undefined) {
+		c1ot = c1.card_faces.map(x => {return x.oracle_text}).join(" ");
+	} else {
+		c1ot = c1.oracle_text;
+	}
+	if(c2.card_faces != undefined) {
+		c2ot = c2.card_faces.map(x => {return x.oracle_text}).join(" ");
+	} else {
+		c2ot = c2.oracle_text;
+	}
+	c1strs = substrFinder.allSubstrs(c1ot);
+	c2strs = substrFinder.allSubstrs(c2ot);
+	
 	ostrs = Object.keys(jsonIn["oracle_text"]).filter(x => !c1strs.has(x) && !c2strs.has(x));
 	c1strs = substrFinder.allSubstrs(c1.flavor_text);
 	c2strs = substrFinder.allSubstrs(c2.flavor_text);
