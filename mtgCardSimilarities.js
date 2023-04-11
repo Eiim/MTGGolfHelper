@@ -98,7 +98,7 @@ async function findSimilar(c1NmF,c2NmF) {
 	
 	oEffs = efficiency(oEffs, "Oracle Text", 3);
 	ftEffs = efficiency(ftEffs, "Flavor Text", 4);
-	tplnEffs = efficiency(tplnEffs, "Typle Line", 3);
+	tplnEffs = efficiency(tplnEffs, "Type Line", 3);
 	artEffs = efficiency(artEffs, "Artist", 3);
 	
 	allEffs = [];
